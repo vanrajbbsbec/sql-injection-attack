@@ -2,44 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace SQLIA
 {
 
     public class SingleLinkedList
-    {
- 
-        class Node
-        {
+    {
+
+        public class Node
+        {
             public int tokenIdentifier;
             public Boolean IsUserData;
-            public Node Next;
-        }
- 
-        private int size;
-        public int Count
-        {
-            get
-            {
-                return size;
-            }
-        }
- 
-        /// <summary>
-        /// The head of the list.
-        /// </summary>
-        private Node head;
- 
-        /// <summary>
-        /// The current node, used to avoid adding nodes before the head
-        /// </summary>
-        private Node current;
+            public Node Next;
+        }
+
+        private int size;
+        public int Count
+        {
+            get
+            {
+                return size;
+            }
+        }
+
+        /// <summary>
+        /// The head of the list.
+        /// </summary>
+        private Node head;
+
+        /// <summary>
+        /// The current node, used to avoid adding nodes before the head
+        /// </summary>
+        private Node current;
 
         public SingleLinkedList()
-        {
-            size = 0;
-            head = null;
-        }
+        {
+            size = 0;
+            head = null;
+        }
 
 
         public void AddAtEnd(int pTokenIdentifier)
@@ -51,7 +52,7 @@ namespace SQLIA
                 tokenIdentifier = pTokenIdentifier
             };
 
-            if(head == null)
+            if (head == null)
             {
                 head = node;
             }
@@ -127,6 +128,38 @@ namespace SQLIA
                 }
             }
             return false;
+        }
+
+        public Boolean CompareSingleList(ArrayList pArrUserQuery)
+        {
+            Boolean IsUserQueryMatching = false;
+            Node tempNode = this.head;
+            int i = 0;
+            int[] arrUserQueryAsInt = pArrUserQuery.ToArray(typeof(Int32)) as int[];
+
+            while (tempNode != null)
+            {
+                if (tempNode.tokenIdentifier == arrUserQueryAsInt[i])
+                {
+                    tempNode = tempNode.Next;
+                    i++;
+                    if (tempNode == null)
+                    {
+                        IsUserQueryMatching = true;
+                    }
+                }
+                else if (tempNode.IsUserData == true)
+                {
+                    tempNode = tempNode.Next;
+                    i++;
+                }
+                else
+                {
+                    IsUserQueryMatching = false;
+                    break;
+                }
+            }
+            return IsUserQueryMatching;
         }
 
     }

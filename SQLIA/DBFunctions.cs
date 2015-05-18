@@ -20,7 +20,6 @@ namespace SQLIA
         private string GetDBConnectionString()
         {
             return "Data Source=.;Initial Catalog=Sample;Integrated Security=True";
-            //ConfigurationManager.ConnectionStrings["ABVP"].ToString();
         }
 
 

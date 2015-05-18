@@ -12,12 +12,12 @@ namespace SQLIA
     class QueryParser
     {
 
-        private string[] tokenizeSQLSmt(string pSQLSmt)
+        public string[] tokenizeSQLSmt(string pSQLSmt)
         {
             return pSQLSmt.Split(' ');
         }
 
-        private ArrayList parseTokenToInt(ArrayList arrSQLTokens)
+        public ArrayList parseTokenToInt(ArrayList arrSQLTokens)
         {
             ArrayList arrTokenAsInt = new ArrayList();
             for (int i = 0; i < arrSQLTokens.Count; i++)
@@ -44,7 +44,7 @@ namespace SQLIA
             int i = 0;
             foreach (MainList mListObject in pSQLDBArrList)
             {
-                Console.Write("-->{0} Tokens: {1}\t", mListObject.GetType().Name, i+1);
+                Console.Write("-->{0} Tokens: {1}\t", mListObject.GetType().Name, i + 1);
                 mListObject.ListNodes();
                 Console.WriteLine(Environment.NewLine);
                 i++;
@@ -66,30 +66,31 @@ namespace SQLIA
 
             string[] tokenizedList = tokenizeSQLSmt(pSQLStatement);
             arrTokenizedList.AddRange(tokenizedList);
-            
+
             ArrayList arrIntegerTokens = parseTokenToInt(arrTokenizedList);
 
-            if(pSQLDBArr.ElementAtOrDefault(arrIntegerTokens.Count) == null)
+            if (pSQLDBArr.ElementAtOrDefault(arrIntegerTokens.Count) == null)
             {
                 for (int i = 0; i < arrIntegerTokens.Count - 1; i++)
                 {
                     if (pSQLDBArr.ElementAtOrDefault(i) == null)
                     {
-                        pSQLDBArr.Add(new MainList());
+                        pSQLDBArr.Add(new MainList()); // Add empty doubleLinkedList before the actual index,
+                        //we are adding a scrap value of doubleLinkedList just to move further to actuall index
                     }
                 }
                 MainList mList = new MainList();
-                pSQLDBArr.Add(mList);
+                pSQLDBArr.Add(mList); //Adding the actual doubleLinkedList, Correct Index will be reached due to the FOR loop above.
             }
-            
+
             AddSingleListToMainList(AddTokensToList(arrIntegerTokens, pListOject), pSQLDBArr[arrIntegerTokens.Count - 1]);
         }
 
         public void AddSingleListToMainList(SingleLinkedList pListOject, MainList pMainListObject)
         {
-            //Do something here
             pMainListObject.AddAtEnd(pListOject);
         }
+
     }
 
     class Program
@@ -101,6 +102,9 @@ namespace SQLIA
             QueryParser objParser = new QueryParser();
             DBFunctions dbfunction = new DBFunctions();
             DataTable dtValid = dbfunction.GetValidSQLSmt();
+
+            ValidateQuery objValidateQuery = new ValidateQuery();
+
             for (int i = 0; i < dtValid.Rows.Count; i++)
             {
                 SingleLinkedList sList = new SingleLinkedList();
@@ -111,7 +115,41 @@ namespace SQLIA
             Console.WriteLine("Completed.");
             Console.WriteLine(Environment.NewLine);
             objParser.Display(SQLDBArr);
-            Console.ReadLine();
+
+            string choice = string.Empty;
+            string userQuery = string.Empty;
+            while(true)
+            {
+                Console.WriteLine("\n************* 1. Validate Query *****************");
+                Console.WriteLine("************* 2. EXIT ***************************");
+                Console.Write("Enter Choice : ");
+                choice = Console.ReadLine();
+                if (choice.Length > 1)
+                {
+                    continue;
+                }
+                else
+                {
+                    switch (Convert.ToInt32(choice))
+                    {
+                        case 1: Console.WriteLine("\nEnter SQL query to check :");
+                            userQuery = Console.ReadLine();
+                            if (objValidateQuery.Validator(userQuery.ToLower(), SQLDBArr))
+                            {
+                                objParser.Display(SQLDBArr);
+                                Console.WriteLine("\nQuery Valid.\n");
+                            }
+                            else
+                            {
+                                Console.WriteLine("\nWarning : Detected SQL Injection Attack!\n");
+                            }
+                            break;
+
+                        case 2: Environment.Exit(1);
+                            break;
+                    }
+                }
+            }
         }
     }
 }
