@@ -114,11 +114,13 @@ namespace SQLIA
 
         public void MoveNode(Node pInCorrectPositionNode)
         {
+            Boolean IsSwapped = false;
             Node tempNode = this.head;
             while (tempNode != null)
             {
                 if (tempNode.pointer.Equals(pInCorrectPositionNode.pointer))
                 {
+
                     /// <summary>
                     /// Check IF the current node is First node
                     /// </summary>
@@ -132,45 +134,93 @@ namespace SQLIA
                     /// </summary>
                     else if (pInCorrectPositionNode.next == null)
                     {
-                        Node loc = pInCorrectPositionNode.pre;
-
-                        /// <summary>
-                        /// Check IF double linked list has only two nodes
-                        /// </summary>
-                        if (this.head == loc)
+                        Node loc;
+                        Node iteratNode = pInCorrectPositionNode;
+                        while (iteratNode != null)
                         {
+                            IsSwapped = false;
+                            loc = pInCorrectPositionNode.pre;
                             /// <summary>
-                            /// Hitcount should be Equal or less from previous node to swap
+                            /// Check IF double linked list has only two nodes
                             /// </summary>
-                            if (loc.HitCount <= pInCorrectPositionNode.HitCount)
+                            if (this.head == loc)
                             {
-                                this.head = loc.next;
-                                loc.next = null;
-                                loc.pre = head;
-                                pInCorrectPositionNode.next = loc;
-                                pInCorrectPositionNode.pre = null;
+                                /// <summary>
+                                /// Hitcount should be Equal or less from previous node to swap
+                                /// </summary>
+                                if (loc.HitCount <= pInCorrectPositionNode.HitCount)
+                                {
+                                    this.head = loc.next;
+                                    loc.next = pInCorrectPositionNode.next;
+                                    loc.pre = head;
+                                    pInCorrectPositionNode.next = loc;
+                                    pInCorrectPositionNode.pre = null;
+                                }
                             }
-                        }
-                        else
-                        {
-                            if (loc.HitCount <= pInCorrectPositionNode.HitCount)
+                            else if (pInCorrectPositionNode.next == null)
                             {
-                                loc.pre.next = pInCorrectPositionNode;
-                                pInCorrectPositionNode.pre = loc.pre;
-                                pInCorrectPositionNode.next = loc;
-                                loc.pre = pInCorrectPositionNode;
-                                loc.next = null;
-                                break;
+                                if (loc.HitCount <= pInCorrectPositionNode.HitCount)
+                                {
+                                    loc.pre.next = pInCorrectPositionNode;
+                                    pInCorrectPositionNode.pre = loc.pre;
+                                    pInCorrectPositionNode.next = loc;
+                                    loc.pre = pInCorrectPositionNode;
+                                    loc.next = null;
+                                    IsSwapped = true;
+                                }
+                                else
+                                {
+                                    IsSwapped = false;
+                                }
+                            }
+                            else
+                            {
+                                if (loc.HitCount <= pInCorrectPositionNode.HitCount)
+                                {
+                                    (loc.pre).next = pInCorrectPositionNode;
+                                    pInCorrectPositionNode.pre = loc.pre;
+                                    loc.next = pInCorrectPositionNode.next;
+                                    loc.pre = pInCorrectPositionNode;
+                                    (pInCorrectPositionNode.next).pre = loc;
+                                    pInCorrectPositionNode.next = loc;
+                                    IsSwapped = true;
+                                }
+                                else
+                                {
+                                    IsSwapped = false;
+                                }
+                            }
+                            /// <summary>
+                            /// 
+                            /// </summary>
+                            if (!IsSwapped)
+                            {
+                                iteratNode = iteratNode.pre;
                             }
                         }
                     }
                     /// <summary>
                     /// Check IF the current node is Second node
                     /// </summary>
-                    else if(pInCorrectPositionNode.pre.pre == null)
+                    else if (pInCorrectPositionNode.pre.pre == null)
                     {
                         //Head of linked List need to be assigned pointer to Current node After swapping
+                        Node loc = pInCorrectPositionNode.pre;
+                        if (loc.HitCount <= pInCorrectPositionNode.HitCount)
+                        {
+                            this.head = pInCorrectPositionNode;
+                            loc.next = pInCorrectPositionNode.next;
+                            loc.pre = pInCorrectPositionNode;
+                            pInCorrectPositionNode.next = loc;
+                            pInCorrectPositionNode.pre = null;
+                        }
                     }
+                    else
+                    {
+                        //Genral swapping
+                    }
+
+                    // While of hit count Ends
                 }
                 tempNode = tempNode.next;
             }
