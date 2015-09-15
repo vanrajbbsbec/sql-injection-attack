@@ -3,3 +3,8 @@ C:\Users\apropos_dev1\Scrap\Scrap\Class_Projects\Projects\SQLIA\SQLIA\bin\Debug\
 C:\Users\apropos_dev1\Scrap\Scrap\Class_Projects\Projects\SQLIA\SQLIA\obj\x86\Debug\SQLIA.exe
 C:\Users\apropos_dev1\Scrap\Scrap\Class_Projects\Projects\SQLIA\SQLIA\obj\x86\Debug\SQLIA.pdb
 C:\Users\apropos_dev1\Scrap\Scrap\Class_Projects\Projects\SQLIA\SQLIA\obj\x86\Debug\SQLIA.csprojResolveAssemblyReference.cache
+C:\Users\apropos_dev1\Desktop\SQLIA\SQLIA\obj\x86\Debug\SQLIA.exe
+C:\Users\apropos_dev1\Desktop\SQLIA\SQLIA\obj\x86\Debug\SQLIA.pdb
+C:\Users\apropos_dev1\Desktop\SQLIA\SQLIA\bin\Debug\SQLIA.exe
+C:\Users\apropos_dev1\Desktop\SQLIA\SQLIA\bin\Debug\SQLIA.pdb
+C:\Users\apropos_dev1\Desktop\SQLIA\SQLIA\obj\x86\Debug\SQLIA.csprojResolveAssemblyReference.cache

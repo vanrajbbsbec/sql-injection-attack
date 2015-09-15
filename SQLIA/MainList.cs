@@ -184,7 +184,7 @@ namespace SQLIA
                                     (pInCorrectPositionNode.next).pre = loc;
                                     pInCorrectPositionNode.next = loc;
                                     IsSwapped = true;
-                                }
+                                }   
                                 else
                                 {
                                     IsSwapped = false;
